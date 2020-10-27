@@ -1,0 +1,66 @@
+* { box-sizing: border-box; }
+
+html {
+    overflow: hidden;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body { 
+    font-family: sans-serif;
+    background-color: #131214;
+}
+
+.scene {
+  margin: 40px 0;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  perspective: 2500px;
+  transform-origin: center center;
+}
+
+.gallery {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.group {
+    position: absolute;
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%;
+}
+
+.image {
+  position: absolute;
+  width: 1500px;
+  height: 750px;
+  left: 0;
+  top: 0;
+  background-size: contain;
+  background-position: center center;
+}
+
+/* Positioning inside the group */
+/*
+width = 1300
+translate_z = 650/tan(22.5)
+*/
+.center {
+    transform: rotateY(0deg) translateZ(-1810px);
+}
+
+.left {
+    transform: rotateY(45deg) translateZ(-1810px);
+}
+
+.right {
+    transform: rotateY(-45deg) translateZ(-1810px);
+}
