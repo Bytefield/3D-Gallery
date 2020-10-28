@@ -1,21 +1,3 @@
-var window_width = window.innerWidth;
-var window_center_x = window.innerWidth / 2;
-var window_height = window.innerHeight;
-var window_center_y = window.innerHeight / 2;
-
-var rotate_gallery = function(event) {
-    let x = event.clientX;
-    let y = event.clientY;
-    let rotation_angle_Y = 180 * (x - window_center_x)/window_width;
-    let rotation_angle_X = -15 * (y - window_center_y)/window_height;
-    gsap.to('.gallery', {
-        rotateY: rotation_angle_Y,
-        rotateX: rotation_angle_X
-    })
-}
-
-document.addEventListener('mousemove', rotate_gallery);
-
 const images = {
     path: "./assets/images/",
     names: [
@@ -23,15 +5,9 @@ const images = {
     ]
 }
 
-const gallery = document.querySelector(".gallery");
-
-gsap.set('.gallery', {
-    z: -1000
-})
-
-
 var paintImages = (() => {
     let counter = 1;
+    let gallery = document.querySelector(".gallery");
     for(index in images.names) {
 
         // When first of 3 create and insert a div to group images
@@ -63,7 +39,7 @@ var paintImages = (() => {
     var groupsArray = [...document.querySelectorAll('.group')];
     groupsArray.map((e,i) => {
         distance = (layer - 1) * (-6000)
-        if(layer % 2 == 0) {            
+        if(layer % 2 == 0) {
             if(iteration == 1) {
                 rotation_angle = 45;
                 iteration++;
@@ -104,37 +80,42 @@ var paintImages = (() => {
 
 
 // Getting image we want to focus on
-rotate_y = null;
-translate_z = null;
+var rotate_y = null;
+var translate_z = null;
+var layer = 1;
 imagesArray = [...document.querySelectorAll('.image')];
-imagesArray.map((e) => {
-    e.addEventListener('click', function(event) {
+imagesArray.map((element) => {
+    element.addEventListener('click', function(event) {
         
         // Getting rotation angle and trasnlation from data attributes
         target = event.target
         target_group = target.parentNode
-        let rotate_y = target_group.getAttribute('data-rotate_y');
-        let translate_z = target_group.getAttribute('data-translate_z');
-        
+        let rotate_y = parseInt(target_group.getAttribute('data-rotate_y'));
+        let translate_z = parseInt(target_group.getAttribute('data-translate_z'));
+        layer = parseInt(target_group.getAttribute('data-layer'));
 
         gsap.to('.gallery', {
-            duration: 1,
-            rotateY: -1 * rotate_y,
-            z: -1 * translate_z
-        })
-
-        // Rotate image 45, 0 or -45 degrees depending on position in group
-        let rotate_multiplier = 0;
-        let translate_multiplier = 0;
+            duration: 5,
+            z: -1 * translate_z,
+            rotateY: -1 * rotate_y
+        });
 
         if (target.hasAttribute('data-selected')) {
             gsap.to(target, {
                 duration: 1,
                 z: 0,
-                translateX: 0,                    // Same as it was originaly moved in innner group transform
+                x: 0,
                 rotateY: 0
             });
+            // gsap.to('.gallery', {
+            //     z: 0
+            // })
+            gsap.to('.scene', {
+                z: 0,
+                rotateY: 0
+            })
             document.removeEventListener('mousemove', rotate_gallery);
+            target.classList.add('active');
             target.style.top = 0;
             target.style.left = 0;
             target.style.width = "100vw";
@@ -143,20 +124,31 @@ imagesArray.map((e) => {
         } else {
             itemPrevSelected = document.querySelector('[data-selected]');
             if (itemPrevSelected) itemPrevSelected.removeAttribute('data-selected')
-            e.setAttribute('data-selected', true)
+            element.setAttribute('data-selected', true)
         }
 
     })
 })
 
-// On mouseleave stay in last focused position
-document.addEventListener('mouseleave', function(event) {
-    gsap.to('.gallery', {
-        rotateY: 0,
-        translateZ: 0,
-        rotateX: 0
+var window_width = window.innerWidth;
+var window_center_x = window.innerWidth / 2;
+var window_height = window.innerHeight;
+var window_center_y = window.innerHeight / 2;
+
+var rotate_gallery = function(event) {
+    let x = event.clientX;
+    let y = event.clientY;
+
+    let rotation_angle_Y = 180 * (x - window_center_x)/window_width;
+    let rotation_angle_X = -15 * (y - window_center_y)/window_height;
+
+    gsap.to('.scene', {
+        rotateY: rotation_angle_Y ,
+        rotateX: rotation_angle_X
     })
-})
+}
+
+document.addEventListener('mousemove', rotate_gallery);
 
 // @todo: get image size
 // @todo: create 3d box = wall
