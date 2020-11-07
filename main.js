@@ -66,7 +66,7 @@ var paintImages = (() => {
                 layer++
             }
             e.style.transform = "rotateY(" + rotation_angle + "deg) translateZ(" + distance + "px)";
-            
+
             // Storing values for later easier retrieval
             e.setAttribute('data-rotate_y', rotation_angle);
             e.setAttribute('data-translate_z', distance);
@@ -86,7 +86,7 @@ var layer = 1;
 imagesArray = [...document.querySelectorAll('.image')];
 imagesArray.map((element) => {
     element.addEventListener('click', function(event) {
-        
+
         // Getting rotation angle and trasnlation from data attributes
         target = event.target
         target_group = target.parentNode
@@ -168,7 +168,7 @@ document.addEventListener('mousemove', rotate_gallery);
 //                        .replace(/url\((['"])?(.*?)\1\)/gi, '$2')
 //                         .split(',')[0];
 
-//     // I just broke it up on newlines for readability        
+//     // I just broke it up on newlines for readability
 
 //     var image = new Image();
 //     image.src = imageSrc;
@@ -176,6 +176,6 @@ document.addEventListener('mousemove', rotate_gallery);
 //     var width = image.width,
 //         height = image.height;
 
-//     alert('width =' + width + ', height = ' + height)    
+//     alert('width =' + width + ', height = ' + height)
 
 // }
